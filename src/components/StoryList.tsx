@@ -1,13 +1,12 @@
-import { useState } from 'react';
-
 import type { Story } from '../types/story';
-import { getStories } from '../services/storyStorage';
 
 import StoryItem from './StoryItem';
 
-function StoryList() {
-  const [stories] = useState<Story[]>(() => getStories());
+interface StoryListProps {
+  stories: Story[];
+}
 
+function StoryList({ stories }: StoryListProps) {
   if (stories.length === 0) {
     return (
       <section>
