@@ -22,8 +22,9 @@ function StoryUpload({ onSelect }: StoryUploadProps) {
   }
 
   return (
-    <label>
-      +
+    <label className="story-upload">
+      <span>+</span>
+
       <input hidden type="file" accept="image/*" onChange={handleChange} />
     </label>
   );

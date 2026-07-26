@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 
 import StoryList from '../components/StoryList';
-import StoryUpload from '../components/StoryUpload';
 import StoryViewer from '../components/StoryViewer';
 
 import { getStories, saveStory } from '../services/storyStorage';
@@ -35,9 +34,11 @@ function App() {
     <main>
       <h1>24h Story Feature</h1>
 
-      <StoryUpload onSelect={handleSelect} />
-
-      <StoryList stories={stories} onStoryClick={handleStoryClick} />
+      <StoryList
+        stories={stories}
+        onStoryClick={handleStoryClick}
+        onUpload={handleSelect}
+      />
 
       <StoryViewer story={selectedStory} onClose={handleCloseViewer} />
     </main>
