@@ -12,11 +12,13 @@ function StoryViewer({ story, onClose }: StoryViewerProps) {
 
   return (
     <div className="story-viewer">
-      <button type="button" onClick={onClose}>
-        Close
-      </button>
+      <div className="story-viewer__content">
+        <button type="button" className="story-viewer__close" onClick={onClose}>
+          ×
+        </button>
 
-      <img src={story.image} alt="Story" />
+        <img className="story-viewer__image" src={story.image} alt="Story" />
+      </div>
     </div>
   );
 }

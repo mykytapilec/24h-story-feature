@@ -1,25 +1,24 @@
-import type { Story } from '../types/story';
-
 import StoryItem from './StoryItem';
+import type { Story } from '../types/story';
+import StoryUpload from './StoryUpload';
 
 interface StoryListProps {
   stories: Story[];
   onStoryClick(story: Story): void;
+  onUpload(file: File): void;
 }
 
-function StoryList({ stories, onStoryClick }: StoryListProps) {
-  if (stories.length === 0) {
-    return (
-      <section>
-        <p>No active stories</p>
-      </section>
-    );
-  }
-
+function StoryList({ stories, onStoryClick, onUpload }: StoryListProps) {
   return (
-    <section>
+    <section className="story-list">
+      <StoryUpload onSelect={onUpload} />
+
       {stories.map((story) => (
-        <StoryItem key={story.id} story={story} onClick={onStoryClick} />
+        <StoryItem
+          key={story.id}
+          story={story}
+          onClick={() => onStoryClick(story)}
+        />
       ))}
     </section>
   );
