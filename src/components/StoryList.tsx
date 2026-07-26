@@ -4,9 +4,10 @@ import StoryItem from './StoryItem';
 
 interface StoryListProps {
   stories: Story[];
+  onStoryClick(story: Story): void;
 }
 
-function StoryList({ stories }: StoryListProps) {
+function StoryList({ stories, onStoryClick }: StoryListProps) {
   if (stories.length === 0) {
     return (
       <section>
@@ -18,7 +19,7 @@ function StoryList({ stories }: StoryListProps) {
   return (
     <section>
       {stories.map((story) => (
-        <StoryItem key={story.id} story={story} />
+        <StoryItem key={story.id} story={story} onClick={onStoryClick} />
       ))}
     </section>
   );

@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import StoryList from '../components/StoryList';
 import StoryUpload from '../components/StoryUpload';
+import StoryViewer from '../components/StoryViewer';
 
 import { getStories, saveStory } from '../services/storyStorage';
 import type { Story } from '../types/story';
@@ -10,6 +11,7 @@ import { createStory } from '../utils/story';
 
 function App() {
   const [stories, setStories] = useState<Story[]>(() => getStories());
+  const [selectedStory, setSelectedStory] = useState<Story | null>(null);
 
   const handleSelect = useCallback(async (file: File) => {
     const image = await fileToDataUrl(file);
@@ -21,13 +23,23 @@ function App() {
     setStories(getStories());
   }, []);
 
+  const handleStoryClick = useCallback((story: Story) => {
+    setSelectedStory(story);
+  }, []);
+
+  const handleCloseViewer = useCallback(() => {
+    setSelectedStory(null);
+  }, []);
+
   return (
     <main>
       <h1>24h Story Feature</h1>
 
       <StoryUpload onSelect={handleSelect} />
 
-      <StoryList stories={stories} />
+      <StoryList stories={stories} onStoryClick={handleStoryClick} />
+
+      <StoryViewer story={selectedStory} onClose={handleCloseViewer} />
     </main>
   );
 }
