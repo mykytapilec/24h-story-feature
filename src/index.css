@@ -124,3 +124,35 @@ section {
   font-size: 20px;
   font-weight: bold;
 }
+
+.story-viewer__nav {
+  position: absolute;
+  top: 50%;
+
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: white;
+
+  cursor: pointer;
+
+  font-size: 20px;
+
+  transform: translateY(-50%);
+}
+
+.story-viewer__nav:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.story-viewer__nav--prev {
+  left: -56px;
+}
+
+.story-viewer__nav--next {
+  right: -56px;
+}
