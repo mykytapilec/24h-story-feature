@@ -10,7 +10,7 @@ import { createStory } from '../utils/story';
 
 function App() {
   const [stories, setStories] = useState<Story[]>(() => getStories());
-  const [selectedStory, setSelectedStory] = useState<Story | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleSelect = useCallback(async (file: File) => {
     const image = await fileToDataUrl(file);
@@ -22,12 +22,19 @@ function App() {
     setStories(getStories());
   }, []);
 
-  const handleStoryClick = useCallback((story: Story) => {
-    setSelectedStory(story);
-  }, []);
+  const handleStoryClick = useCallback(
+    (story: Story) => {
+      const index = stories.findIndex((item) => item.id === story.id);
+
+      if (index !== -1) {
+        setActiveIndex(index);
+      }
+    },
+    [stories],
+  );
 
   const handleCloseViewer = useCallback(() => {
-    setSelectedStory(null);
+    setActiveIndex(null);
   }, []);
 
   return (
@@ -40,7 +47,12 @@ function App() {
         onUpload={handleSelect}
       />
 
-      <StoryViewer story={selectedStory} onClose={handleCloseViewer} />
+      <StoryViewer
+        stories={stories}
+        activeIndex={activeIndex}
+        onActiveIndexChange={setActiveIndex}
+        onClose={handleCloseViewer}
+      />
     </main>
   );
 }
