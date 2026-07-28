@@ -35,3 +35,11 @@ export function removeExpiredStories(): void {
 
   saveStories(activeStories);
 }
+
+export function removeStory(id: string): void {
+  const stories = getStories();
+
+  const updatedStories = stories.filter((story) => story.id !== id);
+
+  saveStories(updatedStories);
+}

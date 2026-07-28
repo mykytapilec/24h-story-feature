@@ -7,6 +7,7 @@ interface StoryViewerProps {
   activeIndex: number | null;
   onActiveIndexChange(index: number | null): void;
   onClose(): void;
+  onDelete(): void;
 }
 
 function StoryViewer({
@@ -14,6 +15,7 @@ function StoryViewer({
   activeIndex,
   onActiveIndexChange,
   onClose,
+  onDelete,
 }: StoryViewerProps) {
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
@@ -139,6 +141,15 @@ function StoryViewer({
       >
         <button type="button" className="story-viewer__close" onClick={onClose}>
           ×
+        </button>
+
+        <button
+          type="button"
+          className="story-viewer__delete"
+          onClick={onDelete}
+          aria-label="Delete story"
+        >
+          🗑
         </button>
 
         <button
