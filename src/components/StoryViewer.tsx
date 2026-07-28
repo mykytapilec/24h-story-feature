@@ -64,9 +64,12 @@ function StoryViewer({
     };
   }, [activeIndex, handleNext, handlePrevious, onClose]);
 
-  if (!story) {
+  if (!story || activeIndex === null) {
     return null;
   }
+
+  const isFirstStory = activeIndex === 0;
+  const isLastStory = activeIndex === stories.length - 1;
 
   return (
     <div className="story-viewer">
@@ -75,11 +78,24 @@ function StoryViewer({
           ×
         </button>
 
+        <div className="story-viewer__progress">
+          {stories.map((item, index) => (
+            <span
+              key={item.id}
+              className={
+                index <= activeIndex
+                  ? 'story-viewer__progress-item story-viewer__progress-item--active'
+                  : 'story-viewer__progress-item'
+              }
+            />
+          ))}
+        </div>
+
         <button
           type="button"
           className="story-viewer__nav story-viewer__nav--prev"
           onClick={handlePrevious}
-          disabled={activeIndex === 0}
+          disabled={isFirstStory}
         >
           ←
         </button>
@@ -90,7 +106,7 @@ function StoryViewer({
           type="button"
           className="story-viewer__nav story-viewer__nav--next"
           onClick={handleNext}
-          disabled={activeIndex === stories.length - 1}
+          disabled={isLastStory}
         >
           →
         </button>
