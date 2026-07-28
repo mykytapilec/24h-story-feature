@@ -1,6 +1,7 @@
 import StoryItem from './StoryItem';
-import type { Story } from '../types/story';
 import StoryUpload from './StoryUpload';
+
+import type { Story } from '../types/story';
 
 interface StoryListProps {
   stories: Story[];
@@ -13,13 +14,20 @@ function StoryList({ stories, onStoryClick, onUpload }: StoryListProps) {
     <section className="story-list">
       <StoryUpload onSelect={onUpload} />
 
-      {stories.map((story) => (
-        <StoryItem
-          key={story.id}
-          story={story}
-          onClick={() => onStoryClick(story)}
-        />
-      ))}
+      {stories.length === 0 ? (
+        <div className="story-empty">
+          <h2>No stories yet</h2>
+          <p>Upload your first story to get started</p>
+        </div>
+      ) : (
+        stories.map((story) => (
+          <StoryItem
+            key={story.id}
+            story={story}
+            onClick={() => onStoryClick(story)}
+          />
+        ))
+      )}
     </section>
   );
 }
