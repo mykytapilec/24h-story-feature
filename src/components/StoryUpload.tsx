@@ -22,8 +22,8 @@ function StoryUpload({ onSelect }: StoryUploadProps) {
   }
 
   return (
-    <label className="story-upload">
-      <span>+</span>
+    <label className="story-upload" role="button" aria-label="Add story">
+      <span className="story-upload__icon">＋</span>
 
       <input hidden type="file" accept="image/*" onChange={handleChange} />
     </label>

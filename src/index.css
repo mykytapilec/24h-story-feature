@@ -33,14 +33,30 @@ section {
 
   cursor: pointer;
 
-  font-size: 40px;
-  font-weight: 300;
-
   user-select: none;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.story-upload span {
+.story-upload:hover {
+  border-color: #333;
+  background-color: #f5f5f5;
+}
+
+.story-upload:active {
+  transform: scale(0.95);
+}
+
+.story-upload__icon {
+  display: block;
+
   line-height: 1;
+
+  font-size: 42px;
+  font-weight: 300;
 }
 
 /* Story item */
@@ -59,6 +75,12 @@ section {
   background: transparent;
 
   cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.story-item:hover {
+  transform: scale(1.05);
 }
 
 .story-item img {
@@ -101,11 +123,13 @@ section {
   border-radius: 12px;
 }
 
+/* Close button */
+
 .story-viewer__close {
   position: absolute;
 
-  top: -12px;
-  right: -12px;
+  top: 12px;
+  right: 12px;
 
   display: flex;
   align-items: center;
@@ -123,7 +147,44 @@ section {
 
   font-size: 20px;
   font-weight: bold;
+
+  z-index: 2;
 }
+
+/* Delete button */
+
+.story-viewer__delete {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: white;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  z-index: 2;
+
+  transition: transform 0.2s ease;
+}
+
+.story-viewer__delete:hover {
+  transform: scale(1.1);
+}
+
+/* Navigation */
 
 .story-viewer__nav {
   position: absolute;
@@ -155,4 +216,34 @@ section {
 
 .story-viewer__nav--next {
   right: -56px;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  main {
+    padding: 16px;
+  }
+
+  .story-upload,
+  .story-item {
+    width: 64px;
+    height: 64px;
+  }
+
+  .story-upload__icon {
+    font-size: 34px;
+  }
+
+  .story-viewer {
+    padding: 12px;
+  }
+
+  .story-viewer__nav--prev {
+    left: 8px;
+  }
+
+  .story-viewer__nav--next {
+    right: 8px;
+  }
 }
