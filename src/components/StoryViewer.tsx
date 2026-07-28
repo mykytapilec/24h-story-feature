@@ -2,6 +2,8 @@ import { useCallback, useEffect } from 'react';
 
 import type { Story } from '../types/story';
 
+const STORY_DURATION = 5000;
+
 interface StoryViewerProps {
   stories: Story[];
   activeIndex: number | null;
@@ -26,12 +28,31 @@ function StoryViewer({
   }, [activeIndex, onActiveIndexChange]);
 
   const handleNext = useCallback(() => {
-    if (activeIndex === null || activeIndex >= stories.length - 1) {
+    if (activeIndex === null) {
+      return;
+    }
+
+    if (activeIndex >= stories.length - 1) {
+      onClose();
       return;
     }
 
     onActiveIndexChange(activeIndex + 1);
-  }, [activeIndex, stories.length, onActiveIndexChange]);
+  }, [activeIndex, stories.length, onActiveIndexChange, onClose]);
+
+  useEffect(() => {
+    if (activeIndex === null) {
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      handleNext();
+    }, STORY_DURATION);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [activeIndex, handleNext]);
 
   useEffect(() => {
     if (activeIndex === null) {
