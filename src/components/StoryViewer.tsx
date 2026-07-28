@@ -1,8 +1,6 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import type { Story } from '../types/story';
-
-const STORY_DURATION = 5000;
 
 interface StoryViewerProps {
   stories: Story[];
@@ -17,6 +15,8 @@ function StoryViewer({
   onActiveIndexChange,
   onClose,
 }: StoryViewerProps) {
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
   const story = activeIndex === null ? null : stories[activeIndex];
 
   const handlePrevious = useCallback(() => {
@@ -28,31 +28,68 @@ function StoryViewer({
   }, [activeIndex, onActiveIndexChange]);
 
   const handleNext = useCallback(() => {
-    if (activeIndex === null) {
-      return;
-    }
-
-    if (activeIndex >= stories.length - 1) {
-      onClose();
+    if (activeIndex === null || activeIndex >= stories.length - 1) {
       return;
     }
 
     onActiveIndexChange(activeIndex + 1);
-  }, [activeIndex, stories.length, onActiveIndexChange, onClose]);
+  }, [activeIndex, stories.length, onActiveIndexChange]);
 
-  useEffect(() => {
-    if (activeIndex === null) {
-      return;
-    }
+  const handleTouchStart = useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      const touch = event.touches[0];
 
-    const timer = window.setTimeout(() => {
-      handleNext();
-    }, STORY_DURATION);
+      touchStart.current = {
+        x: touch.clientX,
+        y: touch.clientY,
+      };
+    },
+    [],
+  );
 
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [activeIndex, handleNext]);
+  const handleTouchEnd = useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      if (!touchStart.current) {
+        return;
+      }
+
+      const touch = event.changedTouches[0];
+
+      const deltaX = touch.clientX - touchStart.current.x;
+      const deltaY = touch.clientY - touchStart.current.y;
+
+      touchStart.current = null;
+
+      if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY > 80) {
+        onClose();
+        return;
+      }
+
+      if (deltaX > 80) {
+        handlePrevious();
+      }
+
+      if (deltaX < -80) {
+        handleNext();
+      }
+    },
+    [handleNext, handlePrevious, onClose],
+  );
+
+  const handleScreenClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const { clientX, currentTarget } = event;
+
+      const middle = currentTarget.clientWidth / 2;
+
+      if (clientX < middle) {
+        handlePrevious();
+      } else {
+        handleNext();
+      }
+    },
+    [handleNext, handlePrevious],
+  );
 
   useEffect(() => {
     if (activeIndex === null) {
@@ -85,38 +122,30 @@ function StoryViewer({
     };
   }, [activeIndex, handleNext, handlePrevious, onClose]);
 
-  if (!story || activeIndex === null) {
+  if (!story) {
     return null;
   }
 
-  const isFirstStory = activeIndex === 0;
-  const isLastStory = activeIndex === stories.length - 1;
-
   return (
-    <div className="story-viewer">
-      <div className="story-viewer__content">
+    <div
+      className="story-viewer"
+      onClick={handleScreenClick}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div
+        className="story-viewer__content"
+        onClick={(event) => event.stopPropagation()}
+      >
         <button type="button" className="story-viewer__close" onClick={onClose}>
           ×
         </button>
-
-        <div className="story-viewer__progress">
-          {stories.map((item, index) => (
-            <span
-              key={item.id}
-              className={
-                index <= activeIndex
-                  ? 'story-viewer__progress-item story-viewer__progress-item--active'
-                  : 'story-viewer__progress-item'
-              }
-            />
-          ))}
-        </div>
 
         <button
           type="button"
           className="story-viewer__nav story-viewer__nav--prev"
           onClick={handlePrevious}
-          disabled={isFirstStory}
+          disabled={activeIndex === 0}
         >
           ←
         </button>
@@ -127,7 +156,7 @@ function StoryViewer({
           type="button"
           className="story-viewer__nav story-viewer__nav--next"
           onClick={handleNext}
-          disabled={isLastStory}
+          disabled={activeIndex === stories.length - 1}
         >
           →
         </button>
