@@ -3,10 +3,16 @@ import { useCallback, useState } from 'react';
 import StoryList from '../components/StoryList';
 import StoryViewer from '../components/StoryViewer';
 
-import { getStories, saveStory } from '../services/storyStorage';
+import {
+  getStories,
+  removeExpiredStories,
+  saveStory,
+} from '../services/storyStorage';
 import type { Story } from '../types/story';
 import { fileToDataUrl } from '../utils/image';
 import { createStory } from '../utils/story';
+
+removeExpiredStories();
 
 function App() {
   const [stories, setStories] = useState<Story[]>(() => getStories());
