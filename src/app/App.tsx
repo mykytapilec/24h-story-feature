@@ -6,6 +6,7 @@ import StoryViewer from '../components/StoryViewer';
 import {
   getStories,
   removeExpiredStories,
+  removeStory,
   saveStory,
 } from '../services/storyStorage';
 import type { Story } from '../types/story';
@@ -43,6 +44,33 @@ function App() {
     setActiveIndex(null);
   }, []);
 
+  const handleDeleteStory = useCallback(() => {
+    if (activeIndex === null) {
+      return;
+    }
+
+    const story = stories[activeIndex];
+
+    if (!story) {
+      return;
+    }
+
+    removeStory(story.id);
+
+    const updatedStories = getStories();
+
+    setStories(updatedStories);
+
+    if (updatedStories.length === 0) {
+      setActiveIndex(null);
+      return;
+    }
+
+    if (activeIndex >= updatedStories.length) {
+      setActiveIndex(updatedStories.length - 1);
+    }
+  }, [activeIndex, stories]);
+
   return (
     <main>
       <h1>24h Story Feature</h1>
@@ -58,6 +86,7 @@ function App() {
         activeIndex={activeIndex}
         onActiveIndexChange={setActiveIndex}
         onClose={handleCloseViewer}
+        onDelete={handleDeleteStory}
       />
     </main>
   );
