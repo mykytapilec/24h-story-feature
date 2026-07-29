@@ -1,73 +1,111 @@
-# React + TypeScript + Vite
+# 24h Story Feature
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple Instagram-like Stories application built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+This project was completed as part of the roadmap.sh frontend projects.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Project URL:** https://roadmap.sh/projects/stories-feature
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Upload image stories
+- Store stories in Local Storage
+- Automatically expire stories after 24 hours
+- Remove expired stories on application startup
+- View stories in fullscreen
+- Previous / Next story navigation
+- Keyboard navigation
+- Mouse click navigation
+- Touch swipe navigation
+- Automatic story progression
+- Story progress indicator
+- Delete stories
+- Responsive UI
+- Empty state when no stories are available
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- React
+- TypeScript
+- Vite
+- Local Storage
+- CSS
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+---
+
+## Getting Started
+
+### Install dependencies
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Start development server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm run dev
 ```
+
+### Build production version
+
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+---
+
+## Available Scripts
+
+| Script                 | Description                                       |
+| ---------------------- | ------------------------------------------------- |
+| `npm run dev`          | Start development server                          |
+| `npm run build`        | Build production bundle                           |
+| `npm run preview`      | Preview production build                          |
+| `npm run lint`         | Run ESLint                                        |
+| `npm run format`       | Format source code with Prettier                  |
+| `npm run format:check` | Check formatting                                  |
+| `npm run typecheck`    | Run TypeScript type checking                      |
+| `npm run check`        | Run type checking, linting, and formatting checks |
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/
+├── components/
+├── services/
+├── types/
+├── utils/
+├── main.tsx
+└── index.css
+```
+
+---
+
+## Story Behavior
+
+- Stories are stored in Local Storage.
+- Each story expires 24 hours after creation.
+- Expired stories are removed automatically.
+- Stories can be deleted manually.
+- Navigation works with keyboard, mouse, and touch gestures.
+- Stories automatically advance after a short delay.
+
+---
+
+## License
+
+This project was created for educational purposes as part of the roadmap.sh learning path.
